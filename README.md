@@ -27,7 +27,7 @@ The dataset was sourced from [Kaggle](https://www.kaggle.com/mlg-ulb/creditcardf
 4. Ensure the notebook path to the file is correct:
    ```python
    df = pd.read_csv('creditcard.csv')  # Update if your path differs
-##🧪 How to Run
+## 🧪 How to Run
 1. Clone the repository:
 
 ```bash
@@ -46,7 +46,7 @@ jupyter notebook
 ```
 4. Open Credit_Card_Fraud_Analysis.ipynb and run all cells.
 
-##✅ Features
+## ✅ Features
 -Data preprocessing and exploration
 
 -Dealing with class imbalance
@@ -55,7 +55,7 @@ jupyter notebook
 
 -ROC Curve and confusion matrix visualizations
 
-##📌 Future Improvements
+## 📌 Future Improvements
 -Add deep learning models
 
 -Use SMOTE or ADASYN for better balancing
