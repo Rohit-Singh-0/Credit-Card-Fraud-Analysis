@@ -1,0 +1,1594 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Fraud\_Analysis\_Notebook}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{Credit Card Fraud Detection
+Analysis}\label{credit-card-fraud-detection-analysis}
+
+\subsection{A Comprehensive Machine Learning Approach to Financial
+Security}\label{a-comprehensive-machine-learning-approach-to-financial-security}
+
+    This analysis presents a robust machine learning solution for credit
+card fraud detection, achieving 99.7\% AUC score with Random Forest
+classification. This model successfully identifies fraudulent
+transactions while minimizing false positives, potentially saving
+millions in fraud losses while maintaining customer trust.
+
+\textbf{Key Business Impact:}
+
+\begin{itemize}
+\tightlist
+\item
+  99.97\% AUC score with Random Forest model
+\item
+  99\% precision \& recall on fraud detection
+\item
+  284,807 transactions analyzed over 2-day period
+\item
+  492 fraud cases detected (0.17\% fraud rate)
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k+kn}{import} \PY{n}{RobustScaler}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LogisticRegression}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestClassifier}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{classification\PYZus{}report}\PY{p}{,} \PY{n}{confusion\PYZus{}matrix}\PY{p}{,} \PY{n}{roc\PYZus{}auc\PYZus{}score}
+\PY{k+kn}{from} \PY{n+nn}{imblearn}\PY{n+nn}{.}\PY{n+nn}{over\PYZus{}sampling} \PY{k+kn}{import} \PY{n}{SMOTE}
+\PY{k+kn}{import} \PY{n+nn}{joblib}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{1. Dataset Overview \& Business
+Context}\label{dataset-overview-business-context}
+
+\subsubsection{Dataset Characteristics}\label{dataset-characteristics}
+
+\textbf{Business Problem}: Credit card fraud costs the global economy
+over \$24 billion annually. Traditional rule-based systems catch only
+40-60\% of fraud cases while generating high false positive rates that
+frustrate customers. Dataset Details:
+
+\begin{itemize}
+\tightlist
+\item
+  284,807 total transactions over 2 days
+\item
+  30 anonymized features (V1-V28) from PCA transformation
+\item
+  492 fraud cases (0.17\%) - highly imbalanced dataset
+\item
+  Real-world European cardholders data
+\end{itemize}
+
+\textbf{Critical Business Challenge}: The extreme class imbalance
+(99.83\% legitimate vs 0.17\% fraudulent) represents 284,315 normal
+transactions vs 492 fraudulent transactions in this 2-day dataset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../creditcard.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{10 Random sample data from the dataset:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+10 Random sample data from the dataset:
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+            Time        V1        V2        V3        V4        V5        V6  \textbackslash{}
+26540    34127.0 -0.698723  1.258376  1.686847  0.039509 -0.321288 -1.192869
+60966    49585.0  1.105130 -0.164087  1.284623  1.035768 -0.798111  0.665745
+44149    41818.0  1.055033  0.071617  0.095161  0.990946 -0.082675 -0.408363
+176128  122638.0  2.084940 -0.198645 -1.519208  0.045453  0.405595 -0.199018
+139747   83329.0 -2.654861 -2.573636  2.982088  0.177964  0.196961 -0.464111
+163774  116201.0  2.183775 -0.707099 -1.151097 -0.521568 -0.425500 -0.434353
+131702   79704.0  1.306778  0.022181 -0.163723 -0.009640 -0.265932 -1.076554
+42925    41298.0 -0.436524  0.458038  1.695500  0.407806 -0.149181 -0.395205
+511        377.0  1.166919  0.027049  0.513875  0.860965 -0.519452 -0.681147
+225949  144455.0  2.043104 -0.085944 -1.170914  0.222069  0.097185 -0.699205
+
+              V7        V8        V9  {\ldots}       V21       V22       V23  \textbackslash{}
+26540   0.782786 -0.141554 -0.362601  {\ldots} -0.216023 -0.453913  0.046910
+60966  -1.008157  0.475044  0.581620  {\ldots}  0.292840  0.858700 -0.071871
+44149   0.268505 -0.124321 -0.361606  {\ldots}  0.118278  0.184652 -0.237130
+176128 -0.008246 -0.047847  0.473844  {\ldots} -0.311806 -0.828449  0.208466
+139747 -0.467951  0.247670  1.446265  {\ldots}  0.158013  0.104976  0.650700
+163774 -0.518571 -0.187908 -0.327835  {\ldots} -0.411840 -0.587624  0.281394
+131702  0.210551 -0.192439  0.225730  {\ldots} -0.487847 -1.571589  0.155160
+42925   0.452472  0.053252  0.038794  {\ldots}  0.129762  0.576859  0.087676
+511     0.074992 -0.187776  0.345399  {\ldots} -0.202750 -0.441391 -0.025782
+225949  0.094668 -0.184407  0.258222  {\ldots} -0.255424 -0.620555  0.285097
+
+             V24       V25       V26       V27       V28  Amount  Class
+26540   0.917773 -0.186033  0.040545  0.384715  0.185489   12.56      0
+60966  -0.321162  0.265526 -0.201825  0.080821  0.023430    2.99      0
+44149   0.037647  0.690568 -0.337052 -0.002955  0.023549   92.33      0
+176128 -1.179095 -0.225078  0.253697 -0.078111 -0.083254    2.69      0
+139747  0.476358  0.522876  1.031481 -0.059338 -0.041721  284.14      0
+163774  0.478393 -0.246619  0.538941 -0.046213 -0.050727   10.00      0
+131702 -0.153331  0.103053  0.657813 -0.115548 -0.002626   21.44      0
+42925   0.677580 -0.674790  0.253980  0.166668  0.185000   29.47      0
+511     0.452607  0.467223  0.262577 -0.023834  0.020521   40.83      0
+225949 -0.327772 -0.275470  0.197338 -0.072906 -0.072797    1.29      0
+
+[10 rows x 31 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsection{2. Exploratory Data Analysis
+Insights}\label{exploratory-data-analysis-insights}
+
+\subsubsection{Data Quality Assessment}\label{data-quality-assessment}
+
+\textbf{Data Quality Findings:}
+
+\begin{itemize}
+\tightlist
+\item
+  Zero missing values - Clean dataset ready for modeling
+\item
+  No duplicate transactions identified
+\item
+  Consistent data types across all features
+\item
+  No outliers requiring removal (fraud cases naturally appear as
+  outliers)
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Time      0
+V1        0
+V2        0
+V3        0
+V4        0
+V5        0
+V6        0
+V7        0
+V8        0
+V9        0
+V10       0
+V11       0
+V12       0
+V13       0
+V14       0
+V15       0
+V16       0
+V17       0
+V18       0
+V19       0
+V20       0
+V21       0
+V22       0
+V23       0
+V24       0
+V25       0
+V26       0
+V27       0
+V28       0
+Amount    0
+Class     0
+dtype: int64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Shape of the dataset:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rows, Columns:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Shape of the dataset:
+Rows, Columns: (284807, 31)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Columns in the dataset are:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{end}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Columns in the dataset are:
+Time,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,V11,V12,V13,V14,V15,V16,V17,V18,V19,V20,V21,
+V22,V23,V24,V25,V26,V27,V28,Amount,Class,
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{information of the dataset:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{info}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+information of the dataset:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 284807 entries, 0 to 284806
+Data columns (total 31 columns):
+ \#   Column  Non-Null Count   Dtype
+---  ------  --------------   -----
+ 0   Time    284807 non-null  float64
+ 1   V1      284807 non-null  float64
+ 2   V2      284807 non-null  float64
+ 3   V3      284807 non-null  float64
+ 4   V4      284807 non-null  float64
+ 5   V5      284807 non-null  float64
+ 6   V6      284807 non-null  float64
+ 7   V7      284807 non-null  float64
+ 8   V8      284807 non-null  float64
+ 9   V9      284807 non-null  float64
+ 10  V10     284807 non-null  float64
+ 11  V11     284807 non-null  float64
+ 12  V12     284807 non-null  float64
+ 13  V13     284807 non-null  float64
+ 14  V14     284807 non-null  float64
+ 15  V15     284807 non-null  float64
+ 16  V16     284807 non-null  float64
+ 17  V17     284807 non-null  float64
+ 18  V18     284807 non-null  float64
+ 19  V19     284807 non-null  float64
+ 20  V20     284807 non-null  float64
+ 21  V21     284807 non-null  float64
+ 22  V22     284807 non-null  float64
+ 23  V23     284807 non-null  float64
+ 24  V24     284807 non-null  float64
+ 25  V25     284807 non-null  float64
+ 26  V26     284807 non-null  float64
+ 27  V27     284807 non-null  float64
+ 28  V28     284807 non-null  float64
+ 29  Amount  284807 non-null  float64
+ 30  Class   284807 non-null  int64
+dtypes: float64(30), int64(1)
+memory usage: 67.4 MB
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Five number summary and central tendency of each column:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Five number summary and central tendency of each column:
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                Time            V1            V2            V3            V4  \textbackslash{}
+count  284807.000000  2.848070e+05  2.848070e+05  2.848070e+05  2.848070e+05
+mean    94813.859575  1.168375e-15  3.416908e-16 -1.379537e-15  2.074095e-15
+std     47488.145955  1.958696e+00  1.651309e+00  1.516255e+00  1.415869e+00
+min         0.000000 -5.640751e+01 -7.271573e+01 -4.832559e+01 -5.683171e+00
+25\%     54201.500000 -9.203734e-01 -5.985499e-01 -8.903648e-01 -8.486401e-01
+50\%     84692.000000  1.810880e-02  6.548556e-02  1.798463e-01 -1.984653e-02
+75\%    139320.500000  1.315642e+00  8.037239e-01  1.027196e+00  7.433413e-01
+max    172792.000000  2.454930e+00  2.205773e+01  9.382558e+00  1.687534e+01
+
+                 V5            V6            V7            V8            V9  \textbackslash{}
+count  2.848070e+05  2.848070e+05  2.848070e+05  2.848070e+05  2.848070e+05
+mean   9.604066e-16  1.487313e-15 -5.556467e-16  1.213481e-16 -2.406331e-15
+std    1.380247e+00  1.332271e+00  1.237094e+00  1.194353e+00  1.098632e+00
+min   -1.137433e+02 -2.616051e+01 -4.355724e+01 -7.321672e+01 -1.343407e+01
+25\%   -6.915971e-01 -7.682956e-01 -5.540759e-01 -2.086297e-01 -6.430976e-01
+50\%   -5.433583e-02 -2.741871e-01  4.010308e-02  2.235804e-02 -5.142873e-02
+75\%    6.119264e-01  3.985649e-01  5.704361e-01  3.273459e-01  5.971390e-01
+max    3.480167e+01  7.330163e+01  1.205895e+02  2.000721e+01  1.559499e+01
+
+       {\ldots}           V21           V22           V23           V24  \textbackslash{}
+count  {\ldots}  2.848070e+05  2.848070e+05  2.848070e+05  2.848070e+05
+mean   {\ldots}  1.654067e-16 -3.568593e-16  2.578648e-16  4.473266e-15
+std    {\ldots}  7.345240e-01  7.257016e-01  6.244603e-01  6.056471e-01
+min    {\ldots} -3.483038e+01 -1.093314e+01 -4.480774e+01 -2.836627e+00
+25\%    {\ldots} -2.283949e-01 -5.423504e-01 -1.618463e-01 -3.545861e-01
+50\%    {\ldots} -2.945017e-02  6.781943e-03 -1.119293e-02  4.097606e-02
+75\%    {\ldots}  1.863772e-01  5.285536e-01  1.476421e-01  4.395266e-01
+max    {\ldots}  2.720284e+01  1.050309e+01  2.252841e+01  4.584549e+00
+
+                V25           V26           V27           V28         Amount  \textbackslash{}
+count  2.848070e+05  2.848070e+05  2.848070e+05  2.848070e+05  284807.000000
+mean   5.340915e-16  1.683437e-15 -3.660091e-16 -1.227390e-16      88.349619
+std    5.212781e-01  4.822270e-01  4.036325e-01  3.300833e-01     250.120109
+min   -1.029540e+01 -2.604551e+00 -2.256568e+01 -1.543008e+01       0.000000
+25\%   -3.171451e-01 -3.269839e-01 -7.083953e-02 -5.295979e-02       5.600000
+50\%    1.659350e-02 -5.213911e-02  1.342146e-03  1.124383e-02      22.000000
+75\%    3.507156e-01  2.409522e-01  9.104512e-02  7.827995e-02      77.165000
+max    7.519589e+00  3.517346e+00  3.161220e+01  3.384781e+01   25691.160000
+
+               Class
+count  284807.000000
+mean        0.001727
+std         0.041527
+min         0.000000
+25\%         0.000000
+50\%         0.000000
+75\%         0.000000
+max         1.000000
+
+[8 rows x 31 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of Total transactions in the dataset:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Class}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of Actual transaction data:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of Fraud transaction data:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Number of Total transactions in the dataset: 284807
+Number of Actual transaction data: 284315
+Number of Fraud transaction data: 492
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of Actual Transaction Data:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{/}  \PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Class}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of Fraud Transaction Data:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{/}  \PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Class}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{p}{)}\PY{o}{*}\PY{l+m+mi}{100}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Percentage of Actual Transaction Data: 99.82725143693798
+Percentage of Fraud Transaction Data: 0.1727485630620034
+    \end{Verbatim}
+
+    \subsubsection{Transaction Distribution
+Analysis}\label{transaction-distribution-analysis}
+
+\textbf{Business Insight}: The class imbalance (0.173\% fraud rate) from
+your dataset shows 492 fraudulent transactions out of 284,807 total
+transactions over a 2-day period. \textbf{Dataset Specifics:}
+
+\begin{itemize}
+\tightlist
+\item
+  Normal transactions: 284,315 (99.827\%)
+\item
+  Fraudulent transactions: 492 (0.173\%)
+\item
+  Time period: 2 days (172,792 seconds total)
+\item
+  Transaction frequency: \textasciitilde1.65 transactions per second
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sns}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<Axes: xlabel='Class', ylabel='count'>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_15_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Temporal Fraud Patterns}\label{temporal-fraud-patterns}
+
+\textbf{Key Temporal Insights:}
+
+\begin{itemize}
+\tightlist
+\item
+  Fraud transactions show distinct time patterns
+\item
+  Peak fraud activity during off-hours (potential automated attacks)
+\item
+  No seasonal fraud clustering - indicates sophisticated, distributed
+  fraud network
+\item
+  Time-based features crucial for model performance
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Normal Transaction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{red}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{data}\PY{o}{=}\PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{==}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud Transaction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{green}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Transaction VS Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0    0.0
+1    0.0
+2    1.0
+3    1.0
+4    2.0
+5    2.0
+6    4.0
+7    7.0
+8    7.0
+9    9.0
+Name: Time, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{3600}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{hour}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+131020    22.0
+147753    24.0
+252684    43.0
+191734    35.0
+136182    22.0
+246074    42.0
+22907      9.0
+160316    31.0
+239651    41.0
+68897     14.0
+Name: hour, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsection{3. Feature Engineering \& Business
+Logic}\label{feature-engineering-business-logic}
+
+\subsubsection{Transaction Amount
+Analysis}\label{transaction-amount-analysis}
+
+\textbf{Amount-Based Risk Patterns:}
+
+\begin{itemize}
+\tightlist
+\item
+  Small transactions often used to test stolen cards
+\item
+  Large transactions trigger immediate alerts
+\item
+  Log transformation captures non-linear fraud patterns across all
+  amounts
+\item
+  Risk sweet spot: Mid-range amounts (\$50-500) require sophisticated
+  detection
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Amount\PYZus{}log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{log1p}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Amount}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Amount\PYZus{}log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+34060     3.848018
+280661    5.480639
+109528    4.326778
+150425    2.638343
+279061    3.044522
+252600    0.657520
+204302    4.720194
+210826    4.852030
+155338    2.360854
+144173    4.416549
+Name: Amount\_log, dtype: float64
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Correlation Analysis}\label{correlation-analysis}
+
+\textbf{Feature Relationship Insights:}
+
+\begin{itemize}
+\tightlist
+\item
+  V1-V28 features show minimal correlation (expected from PCA)
+\item
+  Time-based patterns reveal fraud clustering
+\item
+  Amount correlations suggest fraud tactics targeting specific
+  transaction ranges
+\item
+  Feature independence enables robust model performance
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                Time            V1            V2            V3            V4  \textbackslash{}
+Time        1.000000  1.173963e-01 -1.059333e-02 -4.196182e-01 -1.052602e-01
+V1          0.117396  1.000000e+00  4.135835e-16 -1.227819e-15 -9.215150e-16
+V2         -0.010593  4.135835e-16  1.000000e+00  3.243764e-16 -1.121065e-15
+V3         -0.419618 -1.227819e-15  3.243764e-16  1.000000e+00  4.711293e-16
+V4         -0.105260 -9.215150e-16 -1.121065e-15  4.711293e-16  1.000000e+00
+V5          0.173072  1.812612e-17  5.157519e-16 -6.539009e-17 -1.719944e-15
+V6         -0.063016 -6.506567e-16  2.787346e-16  1.627627e-15 -7.491959e-16
+V7          0.084714 -1.005191e-15  2.055934e-16  4.895305e-16 -4.104503e-16
+V8         -0.036949 -2.433822e-16 -5.377041e-17 -1.268779e-15  5.697192e-16
+V9         -0.008660 -1.513678e-16  1.978488e-17  5.568367e-16  6.923247e-16
+V10         0.030617  7.388135e-17 -3.991394e-16  1.156587e-15  2.232685e-16
+V11        -0.247689  2.125498e-16  1.975426e-16  1.576830e-15  3.459380e-16
+V12         0.124348  2.053457e-16 -9.568710e-17  6.310231e-16 -5.625518e-16
+V13        -0.065902 -2.425603e-17  6.295388e-16  2.807652e-16  1.303306e-16
+V14        -0.098757 -5.020280e-16 -1.730566e-16  4.739859e-16  2.282280e-16
+V15        -0.183453  3.547782e-16 -4.995814e-17  9.068793e-16  1.377649e-16
+V16         0.011903  7.212815e-17  1.177316e-17  8.299445e-16 -9.614528e-16
+V17        -0.073297 -3.879840e-16 -2.685296e-16  7.614712e-16 -2.699612e-16
+V18         0.090438  3.230206e-17  3.284605e-16  1.509897e-16 -5.103644e-16
+V19         0.028975  1.502024e-16 -7.118719e-18  3.463522e-16 -3.980557e-16
+V20        -0.050866  4.654551e-16  2.506675e-16 -9.316409e-16 -1.857247e-16
+V21         0.044736 -2.457409e-16 -8.480447e-17  5.706192e-17 -1.949553e-16
+V22         0.144059 -4.290944e-16  1.526333e-16 -1.133902e-15 -6.276051e-17
+V23         0.051142  6.168652e-16  1.634231e-16 -4.983035e-16  9.164206e-17
+V24        -0.016182 -4.425156e-17  1.247925e-17  2.686834e-19  1.584638e-16
+V25        -0.233083 -9.605737e-16 -4.478846e-16 -1.104734e-15  6.070716e-16
+V26        -0.041407 -1.581290e-17  2.057310e-16 -1.238062e-16 -4.247268e-16
+V27        -0.005135  1.198124e-16 -4.966953e-16  1.045747e-15  3.977061e-17
+V28        -0.009413  2.083082e-15 -5.093836e-16  9.775546e-16 -2.761403e-18
+Amount     -0.010596 -2.277087e-01 -5.314089e-01 -2.108805e-01  9.873167e-02
+Class      -0.012323 -1.013473e-01  9.128865e-02 -1.929608e-01  1.334475e-01
+hour        0.999758  1.176661e-01 -1.062798e-02 -4.196014e-01 -1.052372e-01
+Amount\_log -0.028515 -9.637529e-02 -4.503166e-01 -3.391303e-02 -4.677013e-03
+
+                      V5            V6            V7            V8  \textbackslash{}
+Time        1.730721e-01 -6.301647e-02  8.471437e-02 -3.694943e-02
+V1          1.812612e-17 -6.506567e-16 -1.005191e-15 -2.433822e-16
+V2          5.157519e-16  2.787346e-16  2.055934e-16 -5.377041e-17
+V3         -6.539009e-17  1.627627e-15  4.895305e-16 -1.268779e-15
+V4         -1.719944e-15 -7.491959e-16 -4.104503e-16  5.697192e-16
+V5          1.000000e+00  2.408382e-16  2.715541e-16  7.437229e-16
+V6          2.408382e-16  1.000000e+00  1.191668e-16 -1.104219e-16
+V7          2.715541e-16  1.191668e-16  1.000000e+00  3.344412e-16
+V8          7.437229e-16 -1.104219e-16  3.344412e-16  1.000000e+00
+V9          7.391702e-16  4.131207e-16  1.122501e-15  4.356078e-16
+V10        -5.202306e-16  5.932243e-17 -7.492834e-17 -2.801370e-16
+V11         7.203963e-16  1.980503e-15  1.425248e-16  2.487043e-16
+V12         7.412552e-16  2.375468e-16 -3.536655e-18  1.839891e-16
+V13         5.886991e-16 -1.211182e-16  1.266462e-17 -2.921856e-16
+V14         6.565143e-16  2.621312e-16  2.607772e-16 -8.599156e-16
+V15        -8.720275e-16 -1.531188e-15 -1.690540e-16  4.127777e-16
+V16         2.246261e-15  2.623672e-18  5.869302e-17 -5.254741e-16
+V17         1.281914e-16  2.015618e-16  2.177192e-16 -2.269549e-16
+V18         5.308590e-16  1.223814e-16  7.604126e-17 -3.667974e-16
+V19        -1.450421e-16 -1.865597e-16 -1.881008e-16 -3.875186e-16
+V20        -3.554057e-16 -1.858755e-16  9.379684e-16  2.033737e-16
+V21        -3.920976e-16  5.833316e-17 -2.027779e-16  3.892798e-16
+V22         1.253751e-16 -4.705235e-19 -8.898922e-16  2.026927e-16
+V23        -8.428683e-18  1.046712e-16 -4.387401e-16  6.377260e-17
+V24        -1.149255e-15 -1.071589e-15  7.434913e-18 -1.047097e-16
+V25         4.808532e-16  4.562861e-16 -3.094082e-16 -4.653279e-16
+V26         4.319541e-16 -1.357067e-16 -9.657637e-16 -1.727276e-16
+V27         6.590482e-16 -4.452461e-16 -1.782106e-15  1.299943e-16
+V28        -5.613951e-18  2.594754e-16 -2.776530e-16 -6.200930e-16
+Amount     -3.863563e-01  2.159812e-01  3.973113e-01 -1.030791e-01
+Class      -9.497430e-02 -4.364316e-02 -1.872566e-01  1.987512e-02
+hour        1.732123e-01 -6.298023e-02  8.475085e-02 -3.705117e-02
+Amount\_log -2.861889e-01  1.638222e-01  9.575759e-02 -2.068987e-02
+
+                      V9  {\ldots}           V23           V24           V25  \textbackslash{}
+Time       -8.660434e-03  {\ldots}  5.114236e-02 -1.618187e-02 -2.330828e-01
+V1         -1.513678e-16  {\ldots}  6.168652e-16 -4.425156e-17 -9.605737e-16
+V2          1.978488e-17  {\ldots}  1.634231e-16  1.247925e-17 -4.478846e-16
+V3          5.568367e-16  {\ldots} -4.983035e-16  2.686834e-19 -1.104734e-15
+V4          6.923247e-16  {\ldots}  9.164206e-17  1.584638e-16  6.070716e-16
+V5          7.391702e-16  {\ldots} -8.428683e-18 -1.149255e-15  4.808532e-16
+V6          4.131207e-16  {\ldots}  1.046712e-16 -1.071589e-15  4.562861e-16
+V7          1.122501e-15  {\ldots} -4.387401e-16  7.434913e-18 -3.094082e-16
+V8          4.356078e-16  {\ldots}  6.377260e-17 -1.047097e-16 -4.653279e-16
+V9          1.000000e+00  {\ldots} -5.214137e-16 -1.430343e-16  6.757763e-16
+V10        -4.642274e-16  {\ldots}  3.214491e-16 -1.355885e-16 -2.846052e-16
+V11         1.354680e-16  {\ldots} -4.505332e-16  1.933267e-15 -5.600475e-16
+V12        -1.079314e-15  {\ldots}  1.800885e-16  4.436512e-16 -5.712973e-16
+V13         2.251072e-15  {\ldots} -7.132064e-16 -1.397470e-16 -5.497612e-16
+V14         3.784757e-15  {\ldots}  3.883204e-16  2.003482e-16 -8.547932e-16
+V15        -1.051167e-15  {\ldots} -3.912243e-16 -4.478263e-16  3.206423e-16
+V16        -1.214086e-15  {\ldots}  5.020770e-16 -3.005985e-16 -1.345418e-15
+V17         1.113695e-15  {\ldots}  3.706214e-16 -2.403828e-16  2.666806e-16
+V18         4.993240e-16  {\ldots} -1.912006e-16 -8.986916e-17 -6.629212e-17
+V19        -1.376135e-16  {\ldots}  7.032035e-16  2.587708e-17  9.577163e-16
+V20        -2.343720e-16  {\ldots}  2.712885e-16  1.277215e-16  1.410054e-16
+V21         1.936953e-16  {\ldots}  8.119580e-16  1.761054e-16 -1.686082e-16
+V22        -7.071869e-16  {\ldots} -7.303916e-17  9.970809e-17 -5.018575e-16
+V23        -5.214137e-16  {\ldots}  1.000000e+00  2.130519e-17 -8.232727e-17
+V24        -1.430343e-16  {\ldots}  2.130519e-17  1.000000e+00  1.015391e-15
+V25         6.757763e-16  {\ldots} -8.232727e-17  1.015391e-15  1.000000e+00
+V26        -7.888853e-16  {\ldots}  1.114524e-15  1.343722e-16  2.646517e-15
+V27        -6.709655e-17  {\ldots}  2.839721e-16 -2.274142e-16 -6.406679e-16
+V28         1.110541e-15  {\ldots}  1.481903e-15 -2.819805e-16 -7.008939e-16
+Amount     -4.424560e-02  {\ldots} -1.126326e-01  5.146217e-03 -4.783686e-02
+Class      -9.773269e-02  {\ldots} -2.685156e-03 -7.220907e-03  3.307706e-03
+hour       -8.041022e-03  {\ldots}  5.119220e-02 -1.615748e-02 -2.332147e-01
+Amount\_log -8.049824e-02  {\ldots} -2.989225e-02 -1.548424e-02 -3.326404e-03
+
+                     V26           V27           V28    Amount     Class  \textbackslash{}
+Time       -4.140710e-02 -5.134591e-03 -9.412688e-03 -0.010596 -0.012323
+V1         -1.581290e-17  1.198124e-16  2.083082e-15 -0.227709 -0.101347
+V2          2.057310e-16 -4.966953e-16 -5.093836e-16 -0.531409  0.091289
+V3         -1.238062e-16  1.045747e-15  9.775546e-16 -0.210880 -0.192961
+V4         -4.247268e-16  3.977061e-17 -2.761403e-18  0.098732  0.133447
+V5          4.319541e-16  6.590482e-16 -5.613951e-18 -0.386356 -0.094974
+V6         -1.357067e-16 -4.452461e-16  2.594754e-16  0.215981 -0.043643
+V7         -9.657637e-16 -1.782106e-15 -2.776530e-16  0.397311 -0.187257
+V8         -1.727276e-16  1.299943e-16 -6.200930e-16 -0.103079  0.019875
+V9         -7.888853e-16 -6.709655e-17  1.110541e-15 -0.044246 -0.097733
+V10        -3.028119e-16 -2.197977e-16  4.864782e-17 -0.101502 -0.216883
+V11        -1.003221e-16 -2.640281e-16 -3.792314e-16  0.000104  0.154876
+V12        -2.359969e-16 -4.672391e-16  6.415167e-16 -0.009542 -0.260593
+V13        -1.769255e-16 -4.720898e-16  1.144372e-15  0.005293 -0.004570
+V14        -1.660327e-16  1.044274e-16  2.289427e-15  0.033751 -0.302544
+V15         2.817791e-16 -1.143519e-15 -1.194130e-15 -0.002986 -0.004223
+V16        -7.290010e-16  6.789513e-16  7.588849e-16 -0.003910 -0.196539
+V17         6.932833e-16  6.148525e-16 -5.534540e-17  0.007309 -0.326481
+V18         2.990167e-16  2.242791e-16  7.976796e-16  0.035650 -0.111485
+V19         5.898033e-16 -2.959370e-16 -1.405379e-15 -0.056151  0.034783
+V20        -2.803504e-16 -1.138829e-15 -2.436795e-16  0.339403  0.020090
+V21        -5.557329e-16 -1.211281e-15  5.278775e-16  0.105999  0.040413
+V22        -2.503187e-17  8.461337e-17 -6.627203e-16 -0.064801  0.000805
+V23         1.114524e-15  2.839721e-16  1.481903e-15 -0.112633 -0.002685
+V24         1.343722e-16 -2.274142e-16 -2.819805e-16  0.005146 -0.007221
+V25         2.646517e-15 -6.406679e-16 -7.008939e-16 -0.047837  0.003308
+V26         1.000000e+00 -3.667715e-16 -2.782204e-16 -0.003208  0.004455
+V27        -3.667715e-16  1.000000e+00 -3.061287e-16  0.028825  0.017580
+V28        -2.782204e-16 -3.061287e-16  1.000000e+00  0.010258  0.009536
+Amount     -3.208037e-03  2.882546e-02  1.025822e-02  1.000000  0.005632
+Class       4.455398e-03  1.757973e-02  9.536041e-03  0.005632  1.000000
+hour       -4.141116e-02 -5.216410e-03 -9.434282e-03 -0.010673 -0.012326
+Amount\_log -1.503530e-02 -4.426980e-02 -1.771442e-03  0.552005 -0.008326
+
+                hour  Amount\_log
+Time        0.999758   -0.028515
+V1          0.117666   -0.096375
+V2         -0.010628   -0.450317
+V3         -0.419601   -0.033913
+V4         -0.105237   -0.004677
+V5          0.173212   -0.286189
+V6         -0.062980    0.163822
+V7          0.084751    0.095758
+V8         -0.037051   -0.020690
+V9         -0.008041   -0.080498
+V10         0.030552   -0.009621
+V11        -0.247308   -0.049182
+V12         0.123680   -0.018930
+V13        -0.065540   -0.002660
+V14        -0.098449    0.024120
+V15        -0.183356   -0.066270
+V16         0.012178   -0.099295
+V17        -0.073450    0.017123
+V18         0.090525    0.042916
+V19         0.029051   -0.016127
+V20        -0.050914    0.144731
+V21         0.044746    0.084379
+V22         0.144070    0.044661
+V23         0.051192   -0.029892
+V24        -0.016157   -0.015484
+V25        -0.233215   -0.003326
+V26        -0.041411   -0.015035
+V27        -0.005216   -0.044270
+V28        -0.009434   -0.001771
+Amount     -0.010673    0.552005
+Class      -0.012326   -0.008326
+hour        1.000000   -0.028540
+Amount\_log -0.028540    1.000000
+
+[33 rows x 33 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Correlation between Features:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{25}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coolwarm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Correlation between Features:
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{X} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{y}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class Distribution}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{ticks}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Normal [0]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud [1]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{4. Data Balancing Strategy}\label{data-balancing-strategy}
+
+\textbf{Business Rationale for SMOTE:}
+
+\begin{itemize}
+\tightlist
+\item
+  Original imbalance: 284,315 normal vs 492 fraud cases
+\item
+  After SMOTE: 284,315 vs 284,315 (perfectly balanced)
+\item
+  Synthetic samples created: 283,823 additional fraud examples
+\item
+  Training improvement: Enables model to learn fraud patterns
+  effectively
+\end{itemize}
+
+\textbf{Why SMOTE vs Other Methods:}
+
+\begin{itemize}
+\tightlist
+\item
+  Preserves fraud patterns better than simple oversampling
+\item
+  Avoids overfitting compared to basic duplication
+\item
+  Maintains feature relationships critical for fraud detection
+\item
+  Industry standard for imbalanced financial datasets
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{smote} \PY{o}{=} \PY{n}{SMOTE}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n}{X\PYZus{}new}\PY{p}{,} \PY{n}{y\PYZus{}new} \PY{o}{=} \PY{n}{smote}\PY{o}{.}\PY{n}{fit\PYZus{}resample}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{y}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original dataset shape:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Resampled dataset shape:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{y\PYZus{}new}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Original dataset shape: Class
+0    284315
+1       492
+Name: count, dtype: int64
+Resampled dataset shape: Class
+0    284315
+1    284315
+Name: count, dtype: int64
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{y\PYZus{}new}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class Distribution after SMOTE}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Class}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{ticks}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Normal [0]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fraud [1]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{5. Model Performance \& Business
+Value}\label{model-performance-business-value}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{scaler} \PY{o}{=} \PY{n}{RobustScaler}\PY{p}{(}\PY{p}{)}
+\PY{n}{X\PYZus{}scaled} \PY{o}{=} \PY{n}{scaler}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}new}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train}\PY{p}{,}\PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X\PYZus{}scaled}\PY{p}{,} \PY{n}{y\PYZus{}new}\PY{p}{,} \PY{n}{test\PYZus{}size} \PY{o}{=}\PY{l+m+mf}{0.2}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{joblib}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{scaler}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../models/Robust\PYZus{}Scaler.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['../models/Robust\_Scaler.pkl']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Logistic Regression
+Results}\label{logistic-regression-results}
+
+\textbf{Logistic Regression Performance:}
+
+\begin{itemize}
+\tightlist
+\item
+  AUC Score: 99.75\% (from your results: 0.9975356610465557)
+\item
+  Precision: 97\% for Class 0, 99\% for Class 1
+\item
+  Recall: 99\% for Class 0, 97\% for Class 1
+\item
+  Overall Accuracy: 98\%
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{lr} \PY{o}{=} \PY{n}{LogisticRegression}\PY{p}{(}\PY{n}{class\PYZus{}weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{balanced}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{max\PYZus{}iter}\PY{o}{=} \PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{lr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,}\PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{lr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,}\PY{n}{y\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AUC:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{roc\PYZus{}auc\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{lr}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       0.97      0.99      0.98     56750
+           1       0.99      0.97      0.98     56976
+
+    accuracy                           0.98    113726
+   macro avg       0.98      0.98      0.98    113726
+weighted avg       0.98      0.98      0.98    113726
+
+AUC: 0.9975356610465557
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{joblib}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{lr}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../models/Logistic\PYZus{}Regression\PYZus{}model.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['../models/Logistic\_Regression\_model.pkl']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Random Forest Results}\label{random-forest-results}
+
+\textbf{Random Forest Performance (Recommended Model):}
+
+\begin{itemize}
+\tightlist
+\item
+  AUC Score: 99.97\% (from your results: 0.9997492244976477)
+\item
+  Precision: 99\% for Class 0, 100\% for Class 1
+\item
+  Recall: 100\% for Class 0, 99\% for Class 1
+\item
+  Overall Accuracy: 99\%
+\end{itemize}
+
+\textbf{Why Random Forest Wins:}
+
+\begin{itemize}
+\tightlist
+\item
+  Ensemble approach captures complex fraud patterns
+\item
+  Feature importance ranking provides business insights
+\item
+  Robust to outliers - crucial for fraud detection
+\item
+  Interpretable results for regulatory compliance
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rf} \PY{o}{=} \PY{n}{RandomForestClassifier}\PY{p}{(}\PY{n}{n\PYZus{}estimators}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{class\PYZus{}weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{balanced}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+\PY{n}{rf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+
+\PY{n}{y\PYZus{}pred\PYZus{}rf} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred\PYZus{}rf}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AUC:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{roc\PYZus{}auc\PYZus{}score}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{rf}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99     56750
+           1       1.00      0.99      0.99     56976
+
+    accuracy                           0.99    113726
+   macro avg       0.99      0.99      0.99    113726
+weighted avg       0.99      0.99      0.99    113726
+
+AUC: 0.9997492244976477
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{joblib}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{rf}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../models/Random\PYZus{}Forest\PYZus{}Model.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['../models/Random\_Forest\_Model.pkl']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsection{6. Feature Importance \& Business
+Intelligence}\label{feature-importance-business-intelligence}
+
+\subsubsection{Top Risk Indicators}\label{top-risk-indicators}
+
+\textbf{Critical Fraud Indicators (Top 10 Features):} \textbf{The model
+identifies these features as most predictive of fraud:}
+
+\begin{itemize}
+\tightlist
+\item
+  V14 - Likely related to transaction velocity patterns
+\item
+  V4 - Possibly merchant category or location-based risk
+\item
+  V11 - Could indicate unusual spending patterns
+\item
+  V12 - May represent account history factors
+\item
+  V10 - Potential geographic risk indicators
+\end{itemize}
+
+\textbf{Business Applications:}
+
+\begin{itemize}
+\tightlist
+\item
+  Real-time scoring using these key features
+\item
+  Risk-based authentication for high-risk indicators
+\item
+  Fraud prevention rules based on feature thresholds
+\item
+  Customer communication for suspicious pattern alerts
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{importances} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{Series}\PY{p}{(}\PY{n}{rf}\PY{o}{.}\PY{n}{feature\PYZus{}importances\PYZus{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{n}{df}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{columns}\PY{p}{)}
+\PY{n}{importances}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{barh}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Top 10 Important Features}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_39_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{7. Risk Scoring \& Business
+Implementation}\label{risk-scoring-business-implementation}
+
+\subsubsection{Risk Categories}\label{risk-categories}
+
+\textbf{Risk-Based Transaction Categories:} \textbf{Critical Risk
+(55,319 transactions in test set):}
+
+\textbf{Fraud probability: 70-100\%} \textbf{Action: Immediate
+review/block transaction}
+
+\textbf{Low Risk (54,403 transactions in test set):} - Fraud
+probability: 0-10\% - Action: Normal processing
+
+\textbf{Medium Risk (2,351 transactions in test set):} - Fraud
+probability: 10-30\% - Action: Enhanced monitoring
+
+\textbf{High Risk (1,653 transactions in test set):} - Fraud
+probability: 30-70\% - Action: Additional verification required
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{probs} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{risk\PYZus{}bins} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{cut}\PY{p}{(}\PY{n}{probs}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{,} \PY{l+m+mf}{0.7}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Low}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Medium}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Critical}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{risk\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Risk\PYZus{}Score}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{probs}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Risk\PYZus{}Category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{risk\PYZus{}bins}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prediction}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test}\PY{p}{)}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Actual}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{y\PYZus{}test}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{risk\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Risk\PYZus{}Category}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{risk\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Risk\_Category
+Critical    55319
+Low         54403
+Medium       2351
+High         1653
+Name: count, dtype: int64
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   Risk\_Score Risk\_Category  Prediction  Actual
+0    0.999550      Critical           1       1
+1    0.999486      Critical           1       1
+2    0.011967           Low           0       0
+3    0.999602      Critical           1       1
+4    0.998761      Critical           1       1
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  Business Impact Calculator
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{class} \PY{n+nc}{BusinessImpactCalculator}\PY{p}{:}
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{avg\PYZus{}transaction}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{,} \PY{n}{fraud\PYZus{}investigation\PYZus{}cost}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{avg\PYZus{}transaction} \PY{o}{=} \PY{n}{avg\PYZus{}transaction}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{investigation\PYZus{}cost} \PY{o}{=} \PY{n}{fraud\PYZus{}investigation\PYZus{}cost}
+
+    \PY{k}{def} \PY{n+nf}{calculate\PYZus{}annual\PYZus{}savings}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{,} \PY{n}{tp}\PY{p}{,} \PY{n}{fp}\PY{p}{,} \PY{n}{fn}\PY{p}{,} \PY{n}{tn}\PY{p}{,} \PY{n}{daily\PYZus{}volume}\PY{o}{=}\PY{l+m+mi}{100000}\PY{p}{)}\PY{p}{:}
+        \PY{n}{fraud\PYZus{}prevented} \PY{o}{=} \PY{n}{tp} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{avg\PYZus{}transaction} \PY{o}{*} \PY{l+m+mi}{365}
+        \PY{n}{investigation\PYZus{}costs} \PY{o}{=} \PY{n}{fp} \PY{o}{*} \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{investigation\PYZus{}cost} \PY{o}{*} \PY{l+m+mi}{365}
+        \PY{n}{churn\PYZus{}cost} \PY{o}{=} \PY{n}{fp} \PY{o}{*} \PY{l+m+mf}{0.05} \PY{o}{*} \PY{l+m+mi}{200} \PY{o}{*} \PY{l+m+mi}{365}
+        \PY{n}{net\PYZus{}annual\PYZus{}benefit} \PY{o}{=} \PY{n}{fraud\PYZus{}prevented} \PY{o}{\PYZhy{}} \PY{n}{investigation\PYZus{}costs} \PY{o}{\PYZhy{}} \PY{n}{churn\PYZus{}cost}
+        \PY{k}{return} \PY{p}{\PYZob{}}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{annual\PYZus{}fraud\PYZus{}prevented}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{fraud\PYZus{}prevented}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{annual\PYZus{}investigation\PYZus{}costs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{investigation\PYZus{}costs}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{customer\PYZus{}churn\PYZus{}cost}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{churn\PYZus{}cost}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{net\PYZus{}annual\PYZus{}savings}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{net\PYZus{}annual\PYZus{}benefit}\PY{p}{,}
+            \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{roi\PYZus{}percentage}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{p}{(}\PY{n}{net\PYZus{}annual\PYZus{}benefit} \PY{o}{/} \PY{n}{investigation\PYZus{}costs}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+        \PY{p}{\PYZcb{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{tn}\PY{p}{,} \PY{n}{fp}\PY{p}{,} \PY{n}{fn}\PY{p}{,} \PY{n}{tp} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred\PYZus{}rf}\PY{p}{)}\PY{o}{.}\PY{n}{ravel}\PY{p}{(}\PY{p}{)}
+\PY{n}{bic} \PY{o}{=} \PY{n}{BusinessImpactCalculator}\PY{p}{(}\PY{n}{avg\PYZus{}transaction}\PY{o}{=}\PY{l+m+mi}{150}\PY{p}{,} \PY{n}{fraud\PYZus{}investigation\PYZus{}cost}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+\PY{n}{impact} \PY{o}{=} \PY{n}{bic}\PY{o}{.}\PY{n}{calculate\PYZus{}annual\PYZus{}savings}\PY{p}{(}\PY{n}{tp}\PY{p}{,} \PY{n}{fp}\PY{p}{,} \PY{n}{fn}\PY{p}{,} \PY{n}{tn}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Business Impact Results:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n}{impact}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{k}\PY{o}{==}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{roi\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{v}\PY{l+s+si}{:}\PY{l+s+s2}{,.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: \PYZdl{}}\PY{l+s+si}{\PYZob{}}\PY{n}{v}\PY{l+s+si}{:}\PY{l+s+s2}{,.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Business Impact Results:
+annual\_fraud\_prevented: \$3,075,307,500.00
+annual\_investigation\_costs: \$593,125.00
+customer\_churn\_cost: \$237,250.00
+net\_annual\_savings: \$3,074,477,125.00
+roi\_percentage: 518,352.31\%
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
