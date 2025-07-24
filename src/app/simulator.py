@@ -5,7 +5,7 @@ import os
 import time
 
 st.set_page_config(page_title="🧠 Real-Time Fraud Dashboard", layout="wide")
-st.title("📡 Real-Time Fraud Detection (Last 10 Transactions)")
+st.title("📡 Real-Time Fraud Detection")
 
 LOG_FILE = "transactions_log.jsonl"
 MAX_DISPLAY = 10
