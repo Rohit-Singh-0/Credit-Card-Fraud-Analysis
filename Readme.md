@@ -4,7 +4,7 @@ Detecting fraudulent card transactions quickly can save issuers millions of doll
 This project builds a production-ready pipeline that ingests raw transaction data, trains machine-learning models, and serves real-time fraud probabilities through a FastAPI micro-service.
 
 ## 🗂️ Repository Structure
-```text
+```
 .
 ├── data/                 # Small sample for demo; full 150 MB dataset excluded
 ├── notebooks/
@@ -19,59 +19,59 @@ This project builds a production-ready pipeline that ingests raw transaction dat
 ```
 
 ## 1. Dataset
-| Property  | Value |
-|-----------|-------|
-| Rows      | 284,807 |
-| Fraud share | 0.17 % |
-| Features  | 28 PCA-anonymized variables + `Time`, `Amount` |
+| Property   | Value |
+|------------|-------|
+| Rows       | 284,807 |
+| Fraud rate | 0.17% |
+| Features   | 28 PCA-anonymized variables + `Time`, `Amount` |
 
 ## 2. End-to-End Workflow
-1. **Exploratory Data Analysis** — understand class imbalance and feature distributions  
-2. **Pre-processing** — standardize numeric features, handle imbalance via SMOTE  
-3. **Modeling** — Logistic Regression & Random Forest with randomized grid-search  
-4. **Evaluation** — ROC-AUC, precision-recall, and cost-based threshold analysis  
-5. **Serialization** — persist best model and scaler as pickles  
-6. **Deployment** — expose `/predict` endpoint with FastAPI  
+1. **Exploratory Data Analysis** – understand class imbalance and feature distributions  
+2. **Pre-processing** – standardize numeric features, handle imbalance via SMOTE  
+3. **Modeling** – Logistic Regression & Random Forest with randomized grid-search  
+4. **Evaluation** – ROC-AUC, precision-recall, and cost-based threshold analysis  
+5. **Serialization** – persist best model and scaler as pickles  
+6. **Deployment** – expose `/predict` endpoint with FastAPI  
 
 ![Pipeline](reports/readme_assets/pipeline.png)
 
 ## 3. Results
 
-| Model                | ROC-AUC | Recall @ 3 % FPR | Precision (Top 0.5 %) | Train time |
-|----------------------|---------|------------------|-----------------------|------------|
-| Logistic Regression  | 0.982   | 0.81             | 0.76                  | < 1 s      |
-| Random Forest (best) | **0.9993** | **0.88**       | **0.84**             | 28 s       |
+| Model                 | ROC-AUC | Recall @ 3% FPR | Precision (Top 0.5%) | Train time |
+|-----------------------|---------|-----------------|----------------------|------------|
+| Logistic Regression   | 0.982   | 0.81            | 0.76                 | <1 s       |
+| Random Forest (best)  | **0.9993** | **0.88**     | **0.84**            | 28 s       |
 
 **Business impact**  
-Flagging only the top 0.5 % of transactions by model score captures 88 % of known fraud, reducing analyst reviews by ~40 % while missing just 12 % of fraudulent cases.
+Flagging only the top 0.5% of transactions by model score captures 88% of known fraud, reducing analyst reviews by ~40% while missing just 12% of fraudulent cases.
 
 ## 4. Quick Start
-
-# 1 – create virtual-env & install dependencies
-python -m venv venv && source venv/bin/activate
+```
+# 1 — create virtual environment & install dependencies
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 
-# 2 – run API locally
+# 2 — run API locally
 uvicorn src.app.main:app --reload
 
-# 3 – score a single transaction
+# 3 — score a single transaction
 curl -X POST "http://127.0.0.1:8000/predict" \
      -H "Content-Type: application/json" \
      -d '@/path/to/sample_transaction.json'
-
-
+```
 
 Example response
+```
 {
   "fraud_probability": 0.9978,
   "is_fraud_flag": 1
 }
-
-
+```
 
 ## 5. Visualization Assets
-* **Fraud_Report.pdf** — 16-page slide deck for stakeholders (EDA, KPI tables, cost curve)  
-* **Tableau Dashboard** — interactive view of fraud geography, hourly patterns, and model thresholds  
+* **[Fraud_Report.pdf](reports/Fraud_Report.pdf)** – 16-page slide deck for stakeholders (EDA, KPI tables, cost curve)  
+* **Tableau Dashboard** – interactive view of fraud geography, hourly patterns, and model thresholds  
 
 ## 6. Project Highlights
 * Handles extreme class imbalance with **SMOTE** & threshold tuning  
@@ -86,5 +86,6 @@ Example response
 - Implement model-drift monitoring with EvidentlyAI  
 
 ## 8. Acknowledgements
-Dataset originally released by Dal Pozzolo et al. and hosted on Kaggle (European card transactions, 2013).  
+Dataset originally released by Dal Pozzolo *et al.* and hosted on Kaggle (European card transactions, 2013).  
 Code authored by **Rohit Singh**.
+```
