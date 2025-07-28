@@ -4,18 +4,19 @@ Detecting fraudulent card transactions quickly can save issuers millions of doll
 This project builds a production-ready pipeline that ingests raw transaction data, trains machine-learning models, and serves real-time fraud probabilities through a FastAPI micro-service.
 
 ## 🗂️ Repository Structure
+```text
 .
-├── data/ # Small sample for demo; full 150 MB dataset excluded
+├── data/                 # Small sample for demo; full 150 MB dataset excluded
 ├── notebooks/
-│ └── Fraud_Analysis_Notebook.ipynb
+│   └── Fraud_Analysis_Notebook.ipynb
 ├── src/
-│ └── app/ # FastAPI service & preprocessing utilities
-├── models/ # Trained pickle artifacts
+│   └── app/              # FastAPI service & preprocessing utilities
+├── models/               # Trained pickle artifacts
 ├── reports/
-│ ├── Fraud_Report.pdf # Executive deck
-│ └── tableau/ # Dashboard files
+│   ├── Fraud_Report.pdf  # Executive deck
+│   └── tableau/          # Dashboard files
 └── requirements.txt
-
+```
 
 ## 1. Dataset
 | Property  | Value |
@@ -46,24 +47,26 @@ Flagging only the top 0.5 % of transactions by model score captures 88 % of know
 
 ## 4. Quick Start
 
-1. Install dependencies
+# 1 – create virtual-env & install dependencies
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-2. Run API locally
+# 2 – run API locally
 uvicorn src.app.main:app --reload
 
-3. Score a single transaction
-curl -X POST "http://127.0.0.1:8000/predict"
--H "Content-Type: application/json"
--d '@/path/to/sample_transaction.json'
+# 3 – score a single transaction
+curl -X POST "http://127.0.0.1:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '@/path/to/sample_transaction.json'
+
 
 
 Example response
 {
-"fraud_probability": 0.9978,
-"is_fraud_flag": 1
+  "fraud_probability": 0.9978,
+  "is_fraud_flag": 1
 }
+
 
 
 ## 5. Visualization Assets
